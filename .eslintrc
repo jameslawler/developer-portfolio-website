@@ -1,0 +1,27 @@
+{
+  "extends": [
+    "eslint:recommended",
+    "plugin:react/recommended",
+    "plugin:jest/recommended",
+    "plugin:prettier/recommended"
+  ],
+  "plugins": ["prettier"],
+  "rules": {
+    "react/react-in-jsx-scope": "off",
+    "prettier/prettier": "error"
+  },
+  "globals": {
+    "React": "writable"
+  },
+  "parserOptions": {
+    "ecmaVersion": 7,
+    "sourceType": "module"
+  },
+  "ignorePatterns": [
+    "out",
+    "node_modules/",
+    ".next",
+    ".vscode",
+    "jest.config.js"
+  ]
+}

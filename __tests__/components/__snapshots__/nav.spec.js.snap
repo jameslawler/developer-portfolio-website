@@ -1,0 +1,44 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`With Snapshot Testing Nav component should render 1`] = `
+<nav
+  className="jsx-2055897931"
+>
+  <ul
+    className="jsx-2055897931"
+  >
+    <li
+      className="jsx-2055897931"
+    >
+      <a
+        className="jsx-2055897931"
+        href="/"
+        onClick={[Function]}
+        onMouseEnter={[Function]}
+      >
+        Home
+      </a>
+    </li>
+    <li
+      className="jsx-2055897931"
+    >
+      <a
+        className="jsx-2055897931"
+        href="https://zeit.co/now"
+      >
+        ZEIT
+      </a>
+    </li>
+    <li
+      className="jsx-2055897931"
+    >
+      <a
+        className="jsx-2055897931"
+        href="https://github.com/zeit/next.js"
+      >
+        GitHub
+      </a>
+    </li>
+  </ul>
+</nav>
+`;
