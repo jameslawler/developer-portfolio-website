@@ -19,7 +19,7 @@ NOTE: This is a work in progress and not ready for production
 
 1. TODO
 
-### Automaic Deployment
+### Automatic Deployment
 
 1. Create an account with [https://travis-ci.org/](Travis-CI) and configure this repository
 
