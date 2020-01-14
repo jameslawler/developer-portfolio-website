@@ -6,16 +6,25 @@ import ReactMarkdown from 'react-markdown';
 
 import githubService from '../services/github-service';
 
-const Portfolio = ({ content, data, githubData }) => (
+const Portfolio = ({ content, data, githubData, githubReadme }) => (
   <div>
     <Head>
       <title>Portfolio</title>
       <link rel="icon" href="/favicon.ico" />
     </Head>
+    <p>Portfolio Markdown:</p>
     <ReactMarkdown source={content} />
+    <p>Portfolio Data:</p>
     <div>{JSON.stringify(data)}</div>
+    {githubReadme && (
+      <div>
+        <p>Github Readme:</p>
+        <ReactMarkdown source={githubReadme} />
+      </div>
+    )}
     {githubData && (
       <div>
+        <p>Github Data:</p>
         <span>{JSON.stringify(githubData)}</span>
       </div>
     )}
@@ -36,6 +45,7 @@ Portfolio.getInitialProps = async ({ query }) => {
       open_issues,
       language,
     } = await githubService.getRepository(data.repository);
+    const readme = await githubService.getReadme(data.repository);
     return {
       content,
       data,
@@ -50,6 +60,7 @@ Portfolio.getInitialProps = async ({ query }) => {
         open_issues,
         language,
       },
+      githubReadme: readme,
     };
   }
 
@@ -60,6 +71,7 @@ Portfolio.propTypes = {
   content: PropTypes.string,
   data: PropTypes.object,
   githubData: PropTypes.object,
+  githubReadme: PropTypes.string,
 };
 
 export default Portfolio;
