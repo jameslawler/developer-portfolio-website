@@ -1,11 +1,11 @@
 import React from 'react';
 import renderer from 'react-test-renderer';
 
-import Nav from '../../components/nav';
+import Portfolio from '../../pages/portfolio';
 
 describe('With Snapshot Testing', () => {
-  it('Nav component should render', () => {
-    const result = renderer.create(<Nav />).toJSON();
+  it('Portfolio component should render', () => {
+    const result = renderer.create(<Portfolio />).toJSON();
     expect(result).toMatchSnapshot();
   });
 });
