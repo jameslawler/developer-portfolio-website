@@ -8,7 +8,7 @@
     "start": "next start",
     "export": "rimraf node_modules/.cache && rimraf out && npm run build && next export",
     "deploy": "npm run export && gh-pages -d out",
-    "test": "jest",
+    "test": "jest --passWithNoTests",
     "lint": "eslint .",
     "lint:fix": "eslint --fix .",
     "prettier": "prettier \"**/*.{js,jsx}\" --write"

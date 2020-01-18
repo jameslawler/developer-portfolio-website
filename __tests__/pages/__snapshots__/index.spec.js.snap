@@ -1,9 +1,0 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
-
-exports[`With Snapshot Testing Home component should render 1`] = `
-<div>
-  <div>
-    Welcome
-  </div>
-</div>
-`;
