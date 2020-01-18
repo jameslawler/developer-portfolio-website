@@ -1,0 +1,16 @@
+.Project {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  min-height: 100vh;
+  justify-content: flex-start;
+}
+
+.Header {
+  width: 100%;
+}
+
+.Markdown {
+  max-width: 850px;
+  width: 100%;
+}
