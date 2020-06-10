@@ -30,7 +30,7 @@
     "eslint-plugin-react": "^7.17.0",
     "gh-pages": "^2.1.1",
     "gray-matter": "^4.0.2",
-    "jest": "^24.9.0",
+    "jest": "^26.0.1",
     "prettier": "^1.19.1",
     "raw-loader": "^4.0.0",
     "react-test-renderer": "^16.12.0",
