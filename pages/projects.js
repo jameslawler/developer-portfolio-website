@@ -1,10 +1,13 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import Head from 'next/head';
+import ReactMarkdown from 'react-markdown';
+import renderers from 'react-markdown-github-renderers';
 
-const Home = () => (
+const Projects = ({ content, headers, sectionsNavigation }) => (
   <div>
     <Head>
-      <title>Home</title>
+      <title>hello</title>
       <link rel="icon" href="/favicon.ico" />
     </Head>
 
@@ -25,8 +28,8 @@ const Home = () => (
             </div>
             <div id="navbarMenuHeroB" className="navbar-menu">
               <div className="navbar-end">
-                <a className="navbar-item is-active">Home</a>
-                <a className="navbar-item">Projects</a>
+                <a className="navbar-item">Home</a>
+                <a className="navbar-item is-active">Projects</a>
                 <a className="navbar-item">Snippets</a>
                 <span className="navbar-item">
                   <a
@@ -57,49 +60,56 @@ const Home = () => (
       </div>
 
       <div className="hero-body">
-        <div className="container is-desktop has-text-centered">
-          <div className="columns is-mobile is-centered">
-            <div className="column is-narrow">
-              <figure className="image is-128x128">
-                <img className="is-rounded" src="/assets/james-lawler.jpg" />
-              </figure>
-            </div>
-          </div>
-        </div>
         <div className="container has-text-centered">
-          <p className="title">James Lawler</p>
-          <p className="subtitle">Software Developer</p>
+          <p className="title">react-native-rss-parser</p>
+          <p className="subtitle">React Native compatible RSS parser</p>
         </div>
+      </div>
+
+      <div className="hero-foot">
+        <nav className="tabs is-boxed">
+          <div className="container">
+            <ul>
+              {sectionsNavigation.map(navigation => (
+                <li
+                  key={navigation.label}
+                  className={navigation.isActive ? 'is-active' : ''}
+                >
+                  <a href={navigation.url}>{navigation.label}</a>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </nav>
       </div>
     </section>
 
     <div className="container is-desktop">
-      <div className="columns">
-        <div className="column">
-          <div className="card">
-            <div className="card-content">
-              <p className="title">
-                “There are two hard things in computer science: cache
-                invalidation, naming things, and off-by-one errors.”
-              </p>
-              <p className="subtitle">Jeff Atwood</p>
-            </div>
-          </div>
-        </div>
-        <div className="column">
-          <div className="card">
-            <div className="card-content">
-              <p className="title">
-                “There are two hard things in computer science: cache
-                invalidation, naming things, and off-by-one errors.”
-              </p>
-              <p className="subtitle">Jeff Atwood</p>
-            </div>
-          </div>
-        </div>
-      </div>
+      <ReactMarkdown
+        source={content}
+        escapeHtml={false}
+        renderers={renderers}
+      />
     </div>
   </div>
 );
 
-export default Home;
+Projects.getInitialProps = async ({ query }) => ({
+  content: query.sectionContent,
+  headers: {
+    ...query.projectHeaders,
+    ...query.sectionHeaders,
+  },
+  sectionsNavigation: query.sectionsNavigation.map(navigation => ({
+    ...navigation,
+    isActive: query.fileName === navigation.id,
+  })),
+});
+
+Projects.propTypes = {
+  content: PropTypes.string,
+  headers: PropTypes.object,
+  sectionsNavigation: PropTypes.array,
+};
+
+export default Projects;

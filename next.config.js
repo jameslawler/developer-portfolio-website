@@ -1,20 +1,80 @@
 const fs = require('fs');
 const matter = require('gray-matter');
 
-const BASE_PROJECTS_PATH = 'data/projects';
+const DATA_PATH = 'data';
 
-const getProjects = () => {
-  const projectFiles = fs.readdirSync(BASE_PROJECTS_PATH);
-  return projectFiles.map(file => {
-    const name = file.replace('.md', '');
-    const content = fs.readFileSync(`${BASE_PROJECTS_PATH}/${file}`, 'utf8');
-    const { data } = matter(content);
+const getMarkdownFiles = path =>
+  fs
+    .readdirSync(path, {
+      withFileTypes: true,
+    })
+    .filter(file => !file.isDirectory())
+    .map(file => file.name)
+    .filter(fileName => fileName.endsWith('.md'));
 
-    return {
-      name,
-      headers: data,
-    };
+const getFolders = path =>
+  fs
+    .readdirSync(path, {
+      withFileTypes: true,
+    })
+    .filter(directory => directory.isDirectory())
+    .map(directory => directory.name);
+
+const extractNameFromPath = name => name.substring(3).replace('.md', '');
+
+const createUrl = (folder, entryName, sectionName, sectionIndex) =>
+  sectionIndex === 0
+    ? `/${folder}/${entryName}`
+    : `/${folder}/${entryName}/${sectionName}`;
+
+const getRoutes = () => {
+  const routes = [];
+  const folders = getFolders(DATA_PATH);
+
+  folders.forEach(folder => {
+    const entries = getFolders(`${DATA_PATH}/${folder}`);
+    entries.forEach(entry => {
+      const entryName = extractNameFromPath(entry);
+      const sections = getMarkdownFiles(`${DATA_PATH}/${folder}/${entry}`);
+      let projectHeaders = {};
+
+      const sectionsNavigation = sections.map((section, sectionIndex) => {
+        const sectionName = extractNameFromPath(section);
+        const url = createUrl(folder, entryName, sectionName, sectionIndex);
+        const filePath = `${DATA_PATH}/${folder}/${entry}/${section}`;
+        const sectionHeaders = matter(fs.readFileSync(filePath, 'utf8')).data;
+
+        if (sectionIndex === 0) {
+          projectHeaders = { ...sectionHeaders };
+        }
+
+        return {
+          id: section,
+          label: sectionHeaders.name,
+          url,
+        };
+      });
+      sections.forEach((section, sectionIndex) => {
+        const sectionName = extractNameFromPath(section);
+        const url = createUrl(folder, entryName, sectionName, sectionIndex);
+        const filePath = `${DATA_PATH}/${folder}/${entry}/${section}`;
+        const sectionMatter = matter(fs.readFileSync(filePath, 'utf8'));
+
+        routes.push({
+          url,
+          page: `/${folder}`,
+          fileName: section,
+          filePath: `${DATA_PATH}/${folder}/${entry}/${section}`,
+          sectionContent: sectionMatter.content,
+          sectionHeaders: sectionMatter.data,
+          sectionsNavigation,
+          projectHeaders,
+        });
+      });
+    });
   });
+
+  return routes;
 };
 
 // eslint-disable-next-line no-undef
@@ -27,25 +87,18 @@ module.exports = {
     return config;
   },
   exportPathMap: async function() {
-    const projects = getProjects();
+    const routes = getRoutes();
+
     return {
       '/': {
         page: '/',
-        query: {
-          projects: projects.map(project => ({
-            name: project.name,
-            headers: project.headers,
-          })),
-        },
       },
-      ...projects.reduce(
-        (acc, project) => ({
+      ...routes.reduce(
+        (acc, route) => ({
           ...acc,
-          [`/projects/${project.name}`]: {
-            page: '/project',
-            query: {
-              name: project.name,
-            },
+          [`${route.url}`]: {
+            page: route.page,
+            query: route,
           },
         }),
         {},
