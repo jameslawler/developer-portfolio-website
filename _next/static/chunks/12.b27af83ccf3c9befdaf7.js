@@ -1,1 +1,0 @@
-(window.webpackJsonp=window.webpackJsonp||[]).push([[12],{"+SpU":function(e,r,n){"use strict";n.r(r),r.default="---\r\nrepository: jameslawler/react-native-clean-webview\r\ncolor: '#111222'\r\ncategory: React Native\r\n---\r\n\r\nWhat ever\r\n"}}]);
