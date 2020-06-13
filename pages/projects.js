@@ -100,7 +100,7 @@ Projects.getInitialProps = async ({ query }) => ({
     ...query.projectHeaders,
     ...query.sectionHeaders,
   },
-  sectionsNavigation: query.sectionsNavigation.map(navigation => ({
+  sectionsNavigation: (query.sectionsNavigation || []).map(navigation => ({
     ...navigation,
     isActive: query.fileName === navigation.id,
   })),
