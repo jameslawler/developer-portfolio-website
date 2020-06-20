@@ -91,7 +91,7 @@ module.exports = {
   exportPathMap: async function() {
     const routes = getRoutes();
 
-    return {
+    const staticRoutes = {
       '/': {
         page: '/',
       },
@@ -106,5 +106,9 @@ module.exports = {
         {},
       ),
     };
+
+    console.log('Static Routes', staticRoutes);
+
+    return staticRoutes;
   },
 };
