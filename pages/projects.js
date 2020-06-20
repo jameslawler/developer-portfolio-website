@@ -94,17 +94,21 @@ const Projects = ({ content, headers, sectionsNavigation }) => (
   </div>
 );
 
-Projects.getInitialProps = async ({ query }) => ({
-  content: query.sectionContent,
-  headers: {
-    ...query.projectHeaders,
-    ...query.sectionHeaders,
-  },
-  sectionsNavigation: (query.sectionsNavigation || []).map(navigation => ({
-    ...navigation,
-    isActive: query.fileName === navigation.id,
-  })),
-});
+Projects.getInitialProps = async ({ query }) => {
+  console.log('Building static page initial props', query);
+
+  return {
+    content: query.sectionContent,
+    headers: {
+      ...query.projectHeaders,
+      ...query.sectionHeaders,
+    },
+    sectionsNavigation: (query.sectionsNavigation || []).map(navigation => ({
+      ...navigation,
+      isActive: query.fileName === navigation.id,
+    })),
+  };
+};
 
 Projects.propTypes = {
   content: PropTypes.string,
