@@ -91,6 +91,12 @@ module.exports = {
   exportPathMap: async function() {
     const routes = getRoutes();
 
+    fs.writeFileSync(
+      `${DATA_PATH}/routes.json`,
+      JSON.stringify(routes),
+      'utf8',
+    );
+
     const staticRoutes = {
       '/': {
         page: '/',
