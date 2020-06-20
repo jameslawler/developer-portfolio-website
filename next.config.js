@@ -60,6 +60,8 @@ const getRoutes = () => {
         const filePath = `${DATA_PATH}/${folder}/${entry}/${section}`;
         const sectionMatter = matter(fs.readFileSync(filePath, 'utf8'));
 
+        console.log(`Adding route (${url})`, sectionsNavigation);
+
         routes.push({
           url,
           page: `/${folder}`,
